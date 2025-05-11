@@ -64,6 +64,9 @@ class Preprocessor(object):
         sequence_times = torch.arange(0, len(sequences) * self.miliseconds_per_stride,
                                       self.miliseconds_per_stride).to(torch.int32)
 
+        full_sequences = sequences
+        full_sequence_times = sequence_times
+        
         if self.start_time is not None:
             # Remove all sequences whose generation window is before the start_time
             # If this removes all the sequences, keep the last one
@@ -81,7 +84,7 @@ class Preprocessor(object):
             sequences = sequences[:end_idx]
             sequence_times = sequence_times[:end_idx]
 
-        return sequences, sequence_times
+        return sequences, sequence_times, full_sequences, full_sequence_times
 
     @staticmethod
     def window(a, w, o, copy=False):

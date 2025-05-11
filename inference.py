@@ -16,10 +16,11 @@ from config import InferenceConfig
 from diffusion_pipeline import DiffisionPipeline
 from osuT5.osuT5.config import TrainConfig
 from osuT5.osuT5.dataset.data_utils import events_of_type, TIMING_TYPES, merge_events
-from osuT5.osuT5.inference import Preprocessor, Processor, Postprocessor, BeatmapConfig, GenerationConfig, \
+from osuT5.osuT5.inference import Preprocessor, Postprocessor, BeatmapConfig, GenerationConfig, \
     generation_config_from_beatmap, beatmap_config_from_beatmap, background_line
+from osuT5.osuT5.inference.processor2 import Processor
 from osuT5.osuT5.inference.super_timing_generator import SuperTimingGenerator
-from osuT5.osuT5.model import Mapperatorinator
+from osuT5.osuT5.model import  Mapperatorinator
 from osuT5.osuT5.tokenizer import Tokenizer, ContextType
 from osuT5.osuT5.utils import get_model
 from osu_diffusion import DiT_models
@@ -239,15 +240,17 @@ def generate(
 
     # Generate beatmap
     if len(output_type) > 0:
-        result = processor.generate(
-            sequences=sequences,
-            generation_config=generation_config,
-            in_context=args.in_context,
-            out_context=output_type,
-            beatmap_path=beatmap_path,
-            extra_in_context=extra_in_context,
-            verbose=verbose,
-        )
+        with torch.inference_mode():
+            with torch.amp.autocast('cuda'):
+                result = processor.generate(
+                    sequences=sequences,
+                    generation_config=generation_config,
+                    in_context=args.in_context,
+                    out_context=output_type,
+                    beatmap_path=beatmap_path,
+                    extra_in_context=extra_in_context,
+                    verbose=verbose,
+                )
 
         events, _ = reduce(merge_events, result)
 
@@ -314,6 +317,7 @@ def load_model(
 
         model = get_model(t5_args, tokenizer)
         model.load_state_dict(model_state)
+    
 
     model.eval()
     model.to(device)
@@ -348,7 +352,7 @@ def load_diff_model(
     return model, tokenizer
 
 
-@hydra.main(config_path="configs", config_name="inference_v29", version_base="1.1")
+@hydra.main(config_path="configs", config_name="inference_v30", version_base="1.1")
 def main(args: InferenceConfig):
     prepare_args(args)
 

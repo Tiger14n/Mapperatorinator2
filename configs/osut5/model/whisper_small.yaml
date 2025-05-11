@@ -1,5 +1,5 @@
 defaults:
-  - model
+  - model2
   - _self_
 
 name: 'openai/whisper-small'

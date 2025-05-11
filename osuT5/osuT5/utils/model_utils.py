@@ -16,8 +16,8 @@ from torch.optim.lr_scheduler import (
 from ..dataset import OrsDataset, OsuParser
 from ..dataset.mmrs_dataset import MmrsDataset
 from ..event import EventType
-from ..model.configuration_mapperatorinator import MapperatorinatorConfig
-from ..model.modeling_mapperatorinator import Mapperatorinator
+from ..model.configuration_mapperatorinator2 import MapperatorinatorConfig
+from ..model.modeling_mapperatorinator2 import Mapperatorinator
 from ..tokenizer import Tokenizer
 from ..config import TrainConfig
 
@@ -58,12 +58,14 @@ def get_model_config(args: TrainConfig, tokenizer: Tokenizer) -> Mapperatorinato
         bos_token_id=tokenizer.sos_id,
         eos_token_id=tokenizer.eos_id,
         decoder_start_token_id=tokenizer.sos_id,
+        max_length=args.data.tgt_seq_len,
     )
 
 
 def get_model(args: TrainConfig, tokenizer: Tokenizer) -> Mapperatorinator:
     model = Mapperatorinator(get_model_config(args, tokenizer))
     return model
+
 
 
 def get_tokenizer(args: TrainConfig) -> Tokenizer:

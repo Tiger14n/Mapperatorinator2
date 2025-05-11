@@ -334,6 +334,10 @@ class Tokenizer(PushToHubMixin):
         """Converts user id into token id."""
         mapper_idx = self.mapper_idx.get(user_id, self.num_mapper_classes)
         return self.encode(Event(type=EventType.MAPPER, value=mapper_idx))
+    
+    def get_mapper_idx(self, user_id: int) -> int:
+        """Converts mapper user id into mapper idx"""
+        return self.mapper_idx.get(user_id, self.num_mapper_classes)
 
     @property
     def mapper_unk(self) -> int:
