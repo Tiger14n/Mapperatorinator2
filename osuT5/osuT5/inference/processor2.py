@@ -491,7 +491,7 @@ class Processor(object):
                 global_pos_end = (full_time + self.miliseconds_per_sequence) / song_length # End of the current frame within the full song
                 global_pos = torch.tensor([global_pos_start, global_pos_end], dtype=torch.float32, device=self.device).unsqueeze(0)
 
-                print(f"Difficulty: {difficulty}, Mapper: {mapper_idx}, Global Pos: {global_pos}")
+                #print(f"Difficulty: {difficulty}, Mapper: {mapper_idx}, Global Pos: {global_pos}")
                 result = self.model_generate(
                     frames,
                     decoder_input_ids=prompt,
