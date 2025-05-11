@@ -10,7 +10,9 @@ This project is built upon [osuT5](https://github.com/gyataro/osuT5) and [osu-di
 
 ## Installation
 
-The instruction below allows you to generate beatmaps on your local machine, alternatively you can run it in the cloud with the [colab notebook](https://colab.research.google.com/github/OliBomby/Mapperatorinator/blob/main/colab/mapperatorinator_inference.ipynb).
+The instruction below allows you to generate beatmaps on your local machine.
+
+Alternatively you can run it in the cloud with the [colab notebook](https://colab.research.google.com/github/Tiger14n/Mapperatorinator2/blob/main/colab/mapperatorinator2_inference.ipynb).
 
 ### 1. Clone the repository
 
